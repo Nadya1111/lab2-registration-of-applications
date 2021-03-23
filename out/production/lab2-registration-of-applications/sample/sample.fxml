@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" layoutY="50.0" prefHeight="358.0" prefWidth="865.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <TableView prefHeight="319.0" prefWidth="598.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <columns>
+          <TableColumn prefWidth="53.333343148231506" text="№" />
+          <TableColumn prefWidth="320.66662979125977" text="Description" />
+            <TableColumn fx:id="statusCol" prefWidth="95.3333740234375" text="Status" />
+            <TableColumn fx:id="performersCol" prefWidth="127.66668701171875" text="Performers" />
+        </columns>
+      </TableView>
+      <Button mnemonicParsing="false" text="Create Application" GridPane.columnIndex="1" />
+      <Button mnemonicParsing="false" text="Delete" />
+   </children>
+</GridPane>
