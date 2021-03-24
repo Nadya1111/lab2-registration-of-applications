@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 
@@ -19,15 +20,18 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     Connection connection;
     @FXML
-    TableColumn statusCol;
+    TableColumn status;
     ObservableList<Application> applications;
+    @FXML
+    TableView table;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connection = PostgresApi.getApi();
-        statusCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        status.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         applications = PostgresApi.getApplication(connection);
-
+        table.setItems(applications);
+        table.refresh();
     }
 
 }

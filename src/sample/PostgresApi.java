@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
@@ -39,7 +40,7 @@ public class PostgresApi {
     }
 
     static public ObservableList<Application> getApplication(Connection connection) {
-        ObservableList<Application> applications = null;
+        ArrayList<Application> applications = new ArrayList<Application>();
         try {
 
             Statement statement = connection.createStatement();
@@ -55,6 +56,7 @@ public class PostgresApi {
                     ";");
             while (resultSet.next()) {
 
+                System.out.println(new Application(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getString(3)).getDescription());
 
                 applications.add(new Application(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getString(3)));
             }
@@ -63,7 +65,37 @@ public class PostgresApi {
 
             System.out.println(ex);
         }
-        return applications;
+        ObservableList<Application> observableList = FXCollections.observableList(applications);
+        return observableList;
+    }
+    static public ObservableList<Application> getStatuses(Connection connection) {
+        ArrayList<String> statuses = new ArrayList<String>();
+        try {
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery("select app.id, app.description, p.full_name, s.description\n" +
+                    "from application as app\n" +
+                    "         INNER JOIN \"application-perfomers\" as app_per\n" +
+                    "                    ON app.id = app_per.id_application\n" +
+                    "inner join performers as p\n" +
+                    "    on app_per.id_perfomers = p.id\n" +
+                    "inner join statuses as s\n" +
+                    "    on app.status_id = s.id\n" +
+                    ";");
+            while (resultSet.next()) {
+
+                System.out.println(new Application(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getString(3)).getDescription());
+
+                statuses.add(resultSet.getInt(1));
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+        ObservableList<Application> observableList = FXCollections.observableList(applications);
+        return observableList;
     }
 
 }

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane alignment="center" hgap="10" layoutY="50.0" prefHeight="358.0" prefWidth="865.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
@@ -13,12 +14,32 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <TableView prefHeight="319.0" prefWidth="598.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TableView fx:id="table" prefHeight="319.0" prefWidth="598.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <columns>
-          <TableColumn prefWidth="53.333343148231506" text="№" />
-          <TableColumn prefWidth="320.66662979125977" text="Description" />
-            <TableColumn fx:id="statusCol" prefWidth="95.3333740234375" text="Status" />
-            <TableColumn fx:id="performersCol" prefWidth="127.66668701171875" text="Performers" />
+          <TableColumn  prefWidth="53.333343148231506" text="№" >
+            <cellValueFactory>
+                <PropertyValueFactory property="id" />
+            </cellValueFactory>
+          </TableColumn>
+
+          <TableColumn  prefWidth="320.66662979125977" text="Description" >
+            <cellValueFactory>
+                <PropertyValueFactory property="description" />
+            </cellValueFactory>
+          </TableColumn>
+
+          <TableColumn fx:id="status" prefWidth="95.3333740234375" text="Status" >
+            <cellValueFactory>
+                <PropertyValueFactory property="status" />
+            </cellValueFactory>
+          </TableColumn>
+
+          <TableColumn  prefWidth="127.66668701171875" text="Performers" >
+            <cellValueFactory>
+                <PropertyValueFactory property="performers" />
+            </cellValueFactory>
+          </TableColumn>
+
         </columns>
       </TableView>
       <Button mnemonicParsing="false" text="Create Application" GridPane.columnIndex="1" />
