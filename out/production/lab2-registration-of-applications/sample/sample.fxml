@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane alignment="center" hgap="10" layoutY="50.0" prefHeight="358.0" prefWidth="865.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
+      <ColumnConstraints maxWidth="591.0" minWidth="441.0" prefWidth="578.3333333333333" />
+      <ColumnConstraints maxWidth="249.66666666666663" minWidth="99.66666666666663" prefWidth="113.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
       <RowConstraints />
    </rowConstraints>
    <children>
-      <TableView fx:id="table" prefHeight="319.0" prefWidth="598.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TableView fx:id="table" prefHeight="319.0" prefWidth="598.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
         <columns>
-          <TableColumn  prefWidth="53.333343148231506" text="№" >
+          <TableColumn prefWidth="53.333343148231506" text="№">
             <cellValueFactory>
                 <PropertyValueFactory property="id" />
             </cellValueFactory>
           </TableColumn>
 
-          <TableColumn  prefWidth="320.66662979125977" text="Description" >
+          <TableColumn prefWidth="197.66664123535156" text="Description">
             <cellValueFactory>
                 <PropertyValueFactory property="description" />
             </cellValueFactory>
           </TableColumn>
 
-          <TableColumn fx:id="status" prefWidth="95.3333740234375" text="Status" >
+          <TableColumn fx:id="status" prefWidth="153.00003051757812" text="Status">
             <cellValueFactory>
                 <PropertyValueFactory property="status" />
             </cellValueFactory>
           </TableColumn>
 
-          <TableColumn  prefWidth="127.66668701171875" text="Performers" >
+          <TableColumn fx:id="performers" prefWidth="195.0" text="Performers">
             <cellValueFactory>
                 <PropertyValueFactory property="performers" />
             </cellValueFactory>
@@ -42,7 +44,5 @@
 
         </columns>
       </TableView>
-      <Button mnemonicParsing="false" text="Create Application" GridPane.columnIndex="1" />
-      <Button mnemonicParsing="false" text="Delete" />
    </children>
 </GridPane>

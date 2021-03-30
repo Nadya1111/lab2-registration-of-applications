@@ -46,14 +46,12 @@ public class PostgresApi {
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery("select app.id, app.description, p.full_name, s.description\n" +
-                    "from application as app\n" +
-                    "         INNER JOIN \"application-perfomers\" as app_per\n" +
-                    "                    ON app.id = app_per.id_application\n" +
-                    "inner join performers as p\n" +
-                    "    on app_per.id_perfomers = p.id\n" +
-                    "inner join statuses as s\n" +
-                    "    on app.status_id = s.id\n" +
-                    ";");
+                    "                    from application as app\n" +
+                    "                    left join performers as p\n" +
+                    "                    on app.performer_id = p.id\n" +
+                    "                    left join statuses as s\n" +
+                    "                      on app.status_id = s.id\n" +
+                    "                ;");
             while (resultSet.next()) {
                 applications.add(new Application(
                         resultSet.getInt(1),
@@ -75,15 +73,8 @@ public class PostgresApi {
         ArrayList<String> statuses = new ArrayList<String>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select app.id, app.description, p.full_name, s.description\n" +
-                    "from application as app\n" +
-                    "         INNER JOIN \"application-perfomers\" as app_per\n" +
-                    "                    ON app.id = app_per.id_application\n" +
-                    "inner join performers as p\n" +
-                    "    on app_per.id_perfomers = p.id\n" +
-                    "inner join statuses as s\n" +
-                    "    on app.status_id = s.id\n" +
-                    ";");
+            ResultSet resultSet = statement.executeQuery("select statuses.id,  statuses.description as status\n" +
+                    "from statuses;");
             while (resultSet.next()) {
 
                 statuses.add(resultSet.getString(2));
@@ -97,6 +88,78 @@ public class PostgresApi {
         return observableList;
     }
 
+    static public ObservableList<String> getPerformers(Connection connection) {
+        ArrayList<String> statuses = new ArrayList<String>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select performers.id,  performers.full_name \n" +
+                    "from performers;");
+            while (resultSet.next()) {
+
+                statuses.add(resultSet.getString(2));
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+        ObservableList<String> observableList = FXCollections.observableList(statuses);
+        return observableList;
+    }
+
+    public static void updatePerformer(Connection connection, int appId, String performer) {
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(
+                    "UPDATE application as app\n" +
+                            "SET performer_id = (\n" +
+                            "        select performers.id\n" +
+                            "            from performers\n" +
+                            "            where performers.full_name = \'" + performer + "\'\n" +
+                            "    )\n" +
+                            "    WHERE app.id = " + appId + " ;");
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+    }
+
+    public static void updateStatus(Connection connection, int appId, String status) {
+
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE application as app\n" +
+                    "SET status_id = (\n" +
+                    "        select statuses.id\n" +
+                    "            from statuses\n" +
+                    "            where statuses.description = \'" + status + "\'\n" +
+                    "    )\n" +
+                    "    WHERE app.id = " + appId + " ;";
+            System.out.println(query);
+            statement.executeUpdate(query);
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+    }
+
+    public static void deleteApp(Connection connection, int id) {
+        try {
+            Statement statement = connection.createStatement();
+            System.out.println(id);
+            String query = "DELETE FROM application WHERE id=" + id + ";";
+            System.out.println(query);
+            statement.executeUpdate(query);
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+
+            System.out.println(ex);
+        }
+
+    }
 }
 
 
